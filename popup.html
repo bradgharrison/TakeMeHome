@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<!--
+    TakeMeHome Extension - Popup HTML
+    Version: 0.1
+    Last updated: 2024-03-28 14:00
+-->
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>TakeMeHome</title>
+  <style>
+    :root {
+      --background-color: #ffffff;
+      --text-color: #333333;
+      --input-background: #ffffff;
+      --input-text: #333333;
+      --input-border: #ccc;
+      --button-background: #4285f4;
+      --button-text: white;
+      --button-hover: #3367d6;
+      --success-color: #4caf50;
+      --error-color: #f44336;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --background-color: #292a2d;
+        --text-color: #e8eaed;
+        --input-background: #202124;
+        --input-text: #e8eaed;
+        --input-border: #5f6368;
+        --button-background: #5c9bff;
+        --button-text: #202124;
+        --button-hover: #7ba9ff;
+        --success-color: #81c995;
+        --error-color: #f28b82;
+      }
+    }
+
+    body {
+      width: 300px;
+      padding: 10px;
+      font-family: sans-serif;
+      font-size: 14px;
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+
+    input[type="text"] {
+      width: 100%;
+      margin-bottom: 12px;
+      padding: 8px;
+      box-sizing: border-box;
+      border: 1px solid var(--input-border);
+      border-radius: 4px;
+      background-color: var(--input-background);
+      color: var(--input-text);
+    }
+
+    button {
+      padding: 8px 12px;
+      background-color: var(--button-background);
+      color: var(--button-text);
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: var(--button-hover);
+    }
+
+    #status {
+      margin-top: 10px;
+      font-weight: bold;
+      height: 20px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    #status.visible {
+      opacity: 1;
+      color: var(--success-color);
+    }
+
+    .option-row {
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    .option-label {
+      margin-left: 8px;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .header-icon {
+      width: 48px;
+      height: 48px;
+    }
+
+    input::placeholder {
+      opacity: 0.7;
+    }
+
+    .options-section {
+      margin-top: 15px;
+      margin-bottom: 15px;
+      border-top: 1px solid var(--input-border);
+      padding-top: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header-container">
+    <h1>TakeMeHome</h1>
+    <img src="icons/takemehome.png" class="header-icon" alt="Extension icon">
+  </div>
+
+  <input type="text" id="homepage" placeholder="Enter full address (e.g. https://example.com)"
+    title="Please include http:// or https://">
+
+  <div class="options-section">
+    <!-- Removed checkbox options as per requirements -->
+  </div>
+
+  <button id="save">Save</button>
+  <div id="status"></div>
+
+  <script type="module" src="js/popup.js"></script>
+</body>
+
+</html>
