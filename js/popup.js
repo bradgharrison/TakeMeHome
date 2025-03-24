@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Save options to Chrome storage
 function saveOptions() {
-    const homepage = document.getElementById('homepage').value.trim();
+    let homepage = document.getElementById('homepage').value.trim();
 
     // Validate URL
     if (homepage && !homepage.includes('://')) {
