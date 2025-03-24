@@ -9,6 +9,7 @@ A simple Chrome extension that redirects new tabs to your preferred homepage.
 - Uses appropriate http:// or https:// protocols
 - Clear and simple UI
 - Dark mode support
+- Lightweight and fast performance
 
 ## Features
 
@@ -22,11 +23,12 @@ A simple Chrome extension that redirects new tabs to your preferred homepage.
 
 ## Installation
 
-1. Download or clone this repository
-2. Open Chrome and go to `chrome://extensions/`
-3. Enable "Developer mode" (toggle in the top-right corner)
-4. Click "Load unpacked" and select the `TakeMeHome` folder
-5. The extension is now installed and ready to use
+1. Download the extension from the Chrome Web Store (coming soon)
+2. Or install it manually:
+   - Clone this repository
+   - Open Chrome and go to `chrome://extensions`
+   - Enable Developer Mode
+   - Click "Load unpacked" and select the extension directory
 
 ## Usage
 
