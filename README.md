@@ -1,14 +1,16 @@
 # TakeMeHome
 
-A super simple Chrome extension that forces Chrome to open to your homescreen (even on chromeos!) while also redirecting all new tabs to your homepage.
+A streamlined Chrome extension that redirects new tabs to your preferred homepage, optimized for maintaining a single homepage tab.
 
 ## Features
 
-- Redirects new tab pages to your preferred homepage (can we grab )
-- Minimal interface with no browser toolbar icon
-- Lightweight with just essential files
-- Privacy-friendly - requires minimal permissions
-- No browsing history access required
+- Automatically redirects new tabs to your preferred homepage
+- Maintains a single homepage tab instead of opening multiple duplicate tabs
+- Preserves your homepage when opening new tabs
+- Intercepts link clicks on your homepage to open them in new tabs
+- Supports local addresses (localhost) and external websites
+- Follows dark/light mode preferences of your browser
+- Modular code architecture for maintainability
 
 ## Installation
 
@@ -16,22 +18,41 @@ A super simple Chrome extension that forces Chrome to open to your homescreen (e
 2. Open Chrome and go to `chrome://extensions/`
 3. Enable "Developer mode" (toggle in the top-right corner)
 4. Click "Load unpacked" and select the `TakeMeHome` folder
-5. The extension should now be installed
+5. The extension is now installed and ready to use
 
 ## Usage
 
-1. Install extension
-2. Profit
+1. Click the extension icon in your browser toolbar
+2. Enter your preferred homepage URL (e.g., https://google.com, localhost:3000)
+3. Click "Save"
+4. Open a new tab to see it redirect to your homepage
+
+The extension will maintain a single instance of your homepage tab. When you open new tabs, it will either:
+- Focus your existing homepage tab if one is already open
+- Open your homepage in the new tab if no homepage tab exists
+
+## Permissions
+
+This extension requires:
+- `tabs` permission to manage tabs and focus the homepage tab
+- `storage` permission to save your homepage preference
+- `host_permissions` to redirect to any URL you specify
+
+## Technical Details
+
+- Built with vanilla JavaScript using ES modules
+- Organized with a modular architecture for maintainability
+- Uses Chrome Extension Manifest V3
+- Lightweight with minimal overhead
 
 ## Privacy
 
-This extension is designed to be minimally invasive:
-- Only requires storage permission to save your homepage preference
-- Does not access or store browsing history
+This extension is designed to be privacy-friendly:
 - No tracking or analytics
-- All settings stored locally on your device
-
+- No data sent to external servers
+- All settings stored locally in Chrome's storage
+- No browsing history access beyond what's needed for core functionality
 
 ## License
 
-GNU General Public License v3.0 
+GNU General Public License v3.0
