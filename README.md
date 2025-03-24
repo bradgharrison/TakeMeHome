@@ -5,6 +5,7 @@ A streamlined Chrome extension that redirects new tabs to your preferred homepag
 ## Features
 
 - Automatically redirects new tabs to your preferred homepage
+- Uses your homepage as a personal launcher for your browsing activities
 - Maintains a single homepage tab instead of opening multiple duplicate tabs
 - Preserves your homepage when opening new tabs
 - Intercepts link clicks on your homepage to open them in new tabs
