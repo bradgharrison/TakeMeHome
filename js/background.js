@@ -31,7 +31,7 @@ function formatUrl(url) {
     if (!url.endsWith('/')) url += '/';
 
     if (!url.startsWith('http')) {
-        return url.includes('.local') ? `http://${url}` : `https://${url}`;
+        return isLocalAddress(url) ? `http://${url}` : `https://${url}`;
     }
     return url;
 }

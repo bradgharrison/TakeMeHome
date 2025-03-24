@@ -41,8 +41,8 @@
 
     body {
       font-family: Arial, sans-serif;
-      padding: 15px;
-      width: 300px;
+      padding: 12px;
+      width: 240px;
       margin: 0;
       background-color: var(--background-color);
       color: var(--text-color);
@@ -51,18 +51,30 @@
     .container {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 12px;
     }
 
     h1 {
       font-size: 18px;
-      margin: 0 0 10px 0;
-      color: #2c3e50;
+      margin: 0;
+      color: var(--text-color);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .header-icon {
+      width: 36px;
+      height: 36px;
     }
 
     label {
       font-weight: bold;
-      margin-bottom: 5px;
+      margin-bottom: 4px;
       display: block;
     }
 
@@ -76,14 +88,28 @@
       color: var(--input-text);
     }
 
+    /* Placeholder style */
+    ::placeholder {
+      opacity: 0.5;
+      font-size: 11px;
+    }
+
+    .action-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-top: 4px;
+    }
+
     button {
       background-color: #3498db;
       color: white;
       border: none;
-      padding: 8px 15px;
+      padding: 6px 12px;
       border-radius: 4px;
       cursor: pointer;
-      align-self: flex-end;
+      font-size: 13px;
     }
 
     button:hover {
@@ -93,9 +119,10 @@
     #status {
       color: #27ae60;
       font-weight: bold;
-      height: 20px;
       opacity: 0;
       transition: opacity 0.3s;
+      text-align: center;
+      flex-grow: 1;
     }
 
     #status.visible {
@@ -105,21 +132,42 @@
     #status.error {
       color: #e74c3c;
     }
+
+    .github-link {
+      font-size: 10px;
+      opacity: 0.7;
+    }
+
+    .github-link a {
+      color: var(--text-color);
+      text-decoration: none;
+    }
+
+    .github-link a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <h1>TakeMeHome Settings</h1>
+    <div class="header">
+      <h1>TakeMeHome Settings</h1>
+      <img src="icons/takemehome.png" alt="TakeMeHome" class="header-icon">
+    </div>
 
     <div>
       <label for="homepage">Home URL:</label>
-      <input type="text" id="homepage" placeholder="https://example.com" />
+      <input type="text" id="homepage" placeholder="Include http:// or https:// if needed" />
     </div>
 
-    <button id="save">Save</button>
-
-    <div id="status"></div>
+    <div class="action-row">
+      <button id="save">Save</button>
+      <div id="status"></div>
+      <div class="github-link">
+        <a href="https://github.com/bradgharrison/TakeMeHome" target="_blank">GitHub</a>
+      </div>
+    </div>
   </div>
 
   <script type="module" src="js/popup.js"></script>
