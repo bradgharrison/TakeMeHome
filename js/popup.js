@@ -49,20 +49,6 @@ document.addEventListener('DOMContentLoaded', function () {
 function saveOptions() {
     let homepage = document.getElementById('homepage').value.trim();
 
-    // Validate URL
-    if (homepage && !homepage.includes('://')) {
-        // Add https:// if no protocol is specified
-        if (!homepage.startsWith('http://') && !homepage.startsWith('https://')) {
-            // Local hostnames get http, everything else gets https
-            const isLocal = isLocalAddress(homepage);
-            if (isLocal) {
-                homepage = 'http://' + homepage;
-            } else {
-                homepage = 'https://' + homepage;
-            }
-        }
-    }
-
     // Save to storage (always using single tab mode)
     chrome.storage.local.set({
         homepage: homepage,
@@ -70,7 +56,8 @@ function saveOptions() {
     }, function () {
         // Show saved message
         const status = document.getElementById('status');
-        status.textContent = 'Options saved!';
+        status.textContent = 'Saved';
+        status.className = 'success';
         status.classList.add('visible');
 
         setTimeout(function () {
