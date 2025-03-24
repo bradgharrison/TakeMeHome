@@ -1,6 +1,14 @@
 # TakeMeHome
 
-A streamlined Chrome extension that redirects new tabs to your preferred homepage, optimized for maintaining a single homepage tab.
+A simple Chrome extension that redirects new tabs to your preferred homepage.
+
+## ✨ Features
+
+- Redirects new browser tabs to your configured homepage
+- Automatically detects local addresses vs external sites
+- Uses appropriate http:// or https:// protocols
+- Clear and simple UI
+- Dark mode support
 
 ## Features
 
