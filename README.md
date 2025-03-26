@@ -8,10 +8,7 @@ A streamlined Chrome extension that redirects new tabs to your preferred homepag
 - Uses your homepage as a personal launcher for your browsing activities
 - Maintains a single homepage tab instead of opening multiple duplicate tabs
 - Preserves your homepage when opening new tabs
-- Intercepts link clicks on your homepage to open them in new tabs
-- Supports local addresses (localhost) and external websites
 - Follows dark/light mode preferences of your browser
-- Modular code architecture for maintainability
 
 ## Installation
 
@@ -41,8 +38,8 @@ This extension requires:
 
 ## Technical Details
 
-- Built with vanilla JavaScript using ES modules
-- Organized with a modular architecture for maintainability
+- Built with vanilla JavaScript
+- Self-contained script files for simplicity and compatibility
 - Uses Chrome Extension Manifest V3
 - Lightweight with minimal overhead
 

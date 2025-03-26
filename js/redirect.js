@@ -22,14 +22,8 @@ function showHint(message) {
         if (message) {
             hint.textContent = message;
         } else {
-            // Default message with clickable link and protocol reminder
-            hint.innerHTML = 'Having trouble? Make sure your URL includes http:// or https:// in the <a href="#" id="open-settings">extension settings</a>.';
-            
-            // Add click handler to open extension settings
-            document.getElementById('open-settings').addEventListener('click', function(e) {
-                e.preventDefault();
-                chrome.runtime.sendMessage({ action: 'openPopup' });
-            });
+            // Default message with protocol reminder (no clickable link)
+            hint.textContent = 'Having trouble? Make sure your URL is set and it includes http:// or https:// (if needed) in the extension settings.';
         }
         hint.classList.add('visible');
     }
