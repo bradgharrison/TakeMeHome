@@ -1,7 +1,7 @@
 /**
  * TakeMeHome Extension - Content Script
  * Version: 1.0
- * Last updated: 2024-03-28 14:00
+ * Last updated: 2025-03-26
  */
 
 // Variables to store imported constants and utilities
