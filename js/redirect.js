@@ -4,12 +4,47 @@
  * Last updated: 2024-03-28 14:00
  */
 
-// Import shared constants and utilities
-import { LOCAL_ADDRESS_PATTERN, HOMEPAGE_MARKER } from './constants.js';
-import { isLocalAddress, addHomepageMarkerToUrl } from './utils.js';
+// Define constants directly
+const HOMEPAGE_MARKER = 'TakeMeHomeSameTab';
+
+// Define utility functions
+function addHomepageMarkerToUrl(url) {
+    if (!url) return url;
+
+    const separator = url.includes('?') ? '&' : '?';
+    return `${url}${separator}${HOMEPAGE_MARKER}=true`;
+}
+
+// Show hint message with specified text
+function showHint(message) {
+    const hint = document.getElementById('hint');
+    if (hint) {
+        if (message) {
+            hint.textContent = message;
+        } else {
+            // Default message with clickable link and protocol reminder
+            hint.innerHTML = 'Having trouble? Make sure your URL includes http:// or https:// in the <a href="#" id="open-settings">extension settings</a>.';
+            
+            // Add click handler to open extension settings
+            document.getElementById('open-settings').addEventListener('click', function(e) {
+                e.preventDefault();
+                chrome.runtime.sendMessage({ action: 'openPopup' });
+            });
+        }
+        hint.classList.add('visible');
+    }
+}
 
 // Redirect functionality
 (async function () {
+    // Set up delayed hint
+    setTimeout(() => {
+        const hint = document.getElementById('hint');
+        if (hint && !hint.classList.contains('visible')) {
+            showHint();
+        }
+    }, 3000);
+
     try {
         // If this is not a newtab page, we don't need to do anything
         if (!window.location.href.includes('chrome://newtab')) {
@@ -35,6 +70,7 @@ import { isLocalAddress, addHomepageMarkerToUrl } from './utils.js';
         }
     } catch (e) {
         console.error("[TakeMeHome Redirect]", "Error in redirect logic: " + e);
+        showHint('Error occurred while redirecting. Please check the extension settings.');
     }
 })();
 
@@ -45,6 +81,7 @@ function checkRedirectStatus() {
         chrome.runtime.sendMessage({ action: 'checkRedirectStatus' }, function (response) {
             if (chrome.runtime.lastError) {
                 console.error("[TakeMeHome Redirect]", "Error checking redirect status: " + chrome.runtime.lastError.message);
+                showHint('Error checking redirect status. Please try again.');
                 resolve({ shouldRedirect: false });
                 return;
             }
@@ -61,23 +98,18 @@ function checkRedirectStatus() {
 // Perform normal redirect
 function performRedirect() {
     chrome.storage.local.get(['homepage'], function (data) {
-        if (!data.homepage || data.homepage.trim() === '') return;
+        if (!data.homepage || data.homepage.trim() === '') {
+            showHint('No homepage set. Please configure one with http:// or https:// in the extension settings.');
+            return;
+        }
 
         try {
-            // Format URL with protocol
-            let url = data.homepage;
-            if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                const isLocal = isLocalAddress(url);
-                url = isLocal ? 'http://' + url : 'https://' + url;
-            }
-
-            // Add marker for single-tab tracking using utility function
-            url = addHomepageMarkerToUrl(url);
-
-            // Redirect
+            // Just add the marker and let the browser handle the URL
+            const url = addHomepageMarkerToUrl(data.homepage.trim());
             window.location.href = url;
         } catch (e) {
             console.error("[TakeMeHome Redirect]", "Error redirecting: " + e);
+            showHint('Error redirecting. Make sure your URL includes http:// or https:// in the extension settings.');
         }
     });
 }
@@ -87,6 +119,7 @@ function focusExistingTab(tabId, resetUrl, resetToUrl) {
     chrome.tabs.update(tabId, { active: true }, function (tab) {
         if (chrome.runtime.lastError) {
             console.error("[TakeMeHome Redirect]", "Failed to focus tab: " + chrome.runtime.lastError.message);
+            showHint('Failed to focus existing tab. Please try again.');
             return;
         }
 

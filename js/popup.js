@@ -4,9 +4,13 @@
  * Last updated: 2024-03-28 14:00
  */
 
-// Import shared constants and utilities
-import { LOCAL_ADDRESS_PATTERN } from './constants.js';
-import { isLocalAddress } from './utils.js';
+// Define constants directly
+const LOCAL_ADDRESS_PATTERN = /(localhost|127\.0\.0\.1|::1|0\.0\.0\.0)/i;
+
+// Define utility functions
+function isLocalAddress(url) {
+    return url && LOCAL_ADDRESS_PATTERN.test(url);
+}
 
 'use strict';
 
@@ -16,9 +20,14 @@ function showStatus(message, type = 'success') {
     if (!status) return;
 
     status.textContent = message;
-    status.className = type;
+    status.className = type === 'success' ? 'success visible' : 'warning visible';
 
-    if (message) setTimeout(() => status.textContent = '', 2000);
+    if (message) setTimeout(() => status.classList.remove('visible'), 3000);
+}
+
+// Check if URL has a protocol
+function hasProtocol(url) {
+    return url && /^[a-zA-Z]+:\/\//.test(url);
 }
 
 // Load saved options when popup opens
@@ -48,20 +57,19 @@ document.addEventListener('DOMContentLoaded', function () {
 // Save options to Chrome storage
 function saveOptions() {
     let homepage = document.getElementById('homepage').value.trim();
+    
+    // Warn about missing protocol but allow saving
+    if (!hasProtocol(homepage)) {
+        showStatus('Warning: URL has no protocol (http://, https://, etc). It may not work as expected.', 'warning');
+    }
 
     // Save to storage (always using single tab mode)
     chrome.storage.local.set({
         homepage: homepage,
         sameTab: true
     }, function () {
-        // Show saved message
-        const status = document.getElementById('status');
-        status.textContent = 'Saved';
-        status.className = 'success';
-        status.classList.add('visible');
-
-        setTimeout(function () {
-            status.classList.remove('visible');
-        }, 1500);
+        if (hasProtocol(homepage)) {
+            showStatus('Saved');
+        }
     });
 }

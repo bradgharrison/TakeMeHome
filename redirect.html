@@ -15,6 +15,7 @@ Last updated: 2024-03-28 14:00
       --background-color: #f5f5f5;
       --spinner-background: rgba(66, 133, 244, 0.2);
       --spinner-foreground: #4285f4;
+      --text-color: #666;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -22,12 +23,14 @@ Last updated: 2024-03-28 14:00
         --background-color: #222;
         --spinner-background: rgba(66, 133, 244, 0.1);
         --spinner-foreground: #5c9bff;
+        --text-color: #aaa;
       }
     }
 
     body {
       font-family: sans-serif;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
@@ -43,6 +46,22 @@ Last updated: 2024-03-28 14:00
       border-top: 4px solid var(--spinner-foreground);
       border-radius: 50%;
       animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+
+    .hint {
+      color: var(--text-color);
+      font-size: 14px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      margin-top: 20px;
+      max-width: 300px;
+      line-height: 1.4;
+    }
+
+    .hint.visible {
+      opacity: 1;
     }
 
     @keyframes spin {
@@ -60,6 +79,7 @@ Last updated: 2024-03-28 14:00
 
 <body>
   <div class="spinner"></div>
+  <div id="hint" class="hint">Having trouble? Check if the URL is correct in the extension settings.</div>
 </body>
 
 </html>

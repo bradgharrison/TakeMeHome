@@ -4,36 +4,38 @@
  * Last updated: 2024-03-28 14:00
  */
 
-// Import shared constants and utilities
-import { LOCAL_ADDRESS_PATTERN, HOMEPAGE_MARKER, DEBUG_MODE } from './constants.js';
-import { debugLog, hasHomepageMarker, isLocalAddress, addHomepageMarkerToUrl } from './utils.js';
+// Define constants directly instead of importing
+const HOMEPAGE_MARKER = 'TakeMeHomeSameTab';
+const LOCAL_ADDRESS_PATTERN = /(localhost|127\.0\.0\.1|::1|0\.0\.0\.0)/i;
+const DEBUG_MODE = false;
 
-// Format a URL with appropriate protocol
+// Define utility functions directly
+function debugLog(message, data) {
+    if (DEBUG_MODE) {
+        console.log(`[TakeMeHome] ${message}`, data || '');
+    }
+}
+
+function hasHomepageMarker(url) {
+    return url && url.includes(HOMEPAGE_MARKER);
+}
+
+function addHomepageMarkerToUrl(url) {
+    if (!url) return url;
+
+    const separator = url.includes('?') ? '&' : '?';
+    return `${url}${separator}${HOMEPAGE_MARKER}=true`;
+}
+
+// Format a URL with homepage marker
 function formatHomepageUrl(url) {
     if (!url) return null;
-
-    // Make sure it has a protocol
-    if (!url.startsWith('http://') && !url.startsWith('https://')) {
-        if (isLocalAddress(url)) {
-            url = 'http://' + url;
-        } else {
-            url = 'https://' + url;
-        }
-    }
-
-    // Add our special marker using utility function
     return addHomepageMarkerToUrl(url);
 }
 
-// Simple URL formatting for comparison (adding protocol and trailing slash)
+// Simple URL formatting for comparison
 function formatUrl(url) {
-    // Add trailing slash for consistent comparison
-    if (!url.endsWith('/')) url += '/';
-
-    if (!url.startsWith('http')) {
-        return isLocalAddress(url) ? `http://${url}` : `https://${url}`;
-    }
-    return url;
+    return url && url.endsWith('/') ? url : url + '/';
 }
 
 // Helper function to check if a URL is valid and non-empty
@@ -115,6 +117,20 @@ function verifyHomepageTab(callback) {
 
 // Listen for messages from popup and content script
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+    // Handle constants request
+    if (message.action === 'getConstants') {
+        sendResponse({
+            HOMEPAGE_MARKER: HOMEPAGE_MARKER
+        });
+        return true; // Keep the message channel open
+    }
+    
+    // Handle opening the popup
+    if (message.action === 'openPopup') {
+        chrome.action.openPopup();
+        return true;
+    }
+    
     // Handle redirect status check
     if (message.action === 'checkRedirectStatus') {
         chrome.storage.local.get(['homepage'], function (data) {

@@ -4,9 +4,9 @@
  * Last updated: 2024-03-28 14:00
  */
 
-// Import shared constants and utilities
-import { HOMEPAGE_MARKER } from './constants.js';
-import { hasHomepageMarker } from './utils.js';
+// Variables to store imported constants and utilities
+let HOMEPAGE_MARKER;
+let hasHomepageMarker;
 
 // Flag to prevent multiple handlers from processing the same click
 let processingClick = false;
@@ -127,8 +127,27 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     }
 });
 
-// Initialize on page load
-(function init() {
+// Initialize by requesting constants
+chrome.runtime.sendMessage({ action: 'getConstants' }, function(response) {
+    if (chrome.runtime.lastError) {
+        console.error("[TakeMeHome Content]", "Error getting constants: " + chrome.runtime.lastError.message);
+        return;
+    }
+    
+    // Store the constants we received
+    HOMEPAGE_MARKER = response.HOMEPAGE_MARKER;
+    
+    // Define the utility function locally
+    hasHomepageMarker = function(url) {
+        return url && url.includes(HOMEPAGE_MARKER);
+    };
+    
+    // Now we can initialize
+    init();
+});
+
+// Initialize function
+function init() {
     // Log that we're running
     console.log("[TakeMeHome Content]", "Content script running on: " + window.location.href);
 
@@ -137,4 +156,4 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         console.log("[TakeMeHome Content]", "This is our homepage tab");
         markHomepageTab();
     }
-})();
+}

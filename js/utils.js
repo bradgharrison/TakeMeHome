@@ -44,9 +44,44 @@ function addHomepageMarkerToUrl(url) {
     return `${url}${separator}${HOMEPAGE_MARKER}=true`;
 }
 
+/**
+ * Checks if a URL has a valid protocol (http:// or https://)
+ * @param {string} url - URL to check
+ * @returns {boolean} True if the URL has a valid protocol
+ */
+function hasValidProtocol(url) {
+    return url && /^https?:\/\//i.test(url);
+}
+
+/**
+ * Ensures a URL has a protocol. If no protocol is present, adds http://
+ * Special cases:
+ * - Keeps existing protocols unchanged
+ * - Handles local addresses (adds http://)
+ * - Preserves chrome://, file://, and other special protocols
+ * @param {string} url - URL to ensure has a protocol
+ * @returns {string} URL with protocol
+ */
+function ensureProtocol(url) {
+    if (!url) return url;
+    
+    // If it already has a protocol, return as is
+    if (url.match(/^[a-zA-Z]+:\/\//)) return url;
+    
+    // Handle local addresses
+    if (isLocalAddress(url)) {
+        return `http://${url}`;
+    }
+    
+    // Add http:// as default protocol
+    return `http://${url}`;
+}
+
 export {
     debugLog,
     hasHomepageMarker,
     isLocalAddress,
-    addHomepageMarkerToUrl
+    addHomepageMarkerToUrl,
+    hasValidProtocol,
+    ensureProtocol
 };
