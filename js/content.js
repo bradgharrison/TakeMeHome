@@ -1,6 +1,6 @@
 /**
  * TakeMeHome Extension - Content Script
- * Version: 0.1
+ * Version: 1.0
  * Last updated: 2024-03-28 14:00
  */
 
