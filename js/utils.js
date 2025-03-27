@@ -1,18 +1,7 @@
 /**
  * Shared utility functions for the TakeMeHome extension
  */
-import { LOCAL_ADDRESS_PATTERN, HOMEPAGE_MARKER, DEBUG_MODE } from './constants.js';
-
-/**
- * Logs debug messages if debug mode is enabled
- * @param {string} message - Message to log
- * @param {any} data - Optional data to log
- */
-function debugLog(message, data) {
-    if (DEBUG_MODE) {
-        console.log(`[TakeMeHome] ${message}`, data || '');
-    }
-}
+import { LOCAL_ADDRESS_PATTERN, HOMEPAGE_MARKER } from './constants.js';
 
 /**
  * Checks if a URL has the homepage marker
@@ -78,7 +67,6 @@ function ensureProtocol(url) {
 }
 
 export {
-    debugLog,
     hasHomepageMarker,
     isLocalAddress,
     addHomepageMarkerToUrl,

@@ -100,21 +100,18 @@
     <header>
         <img src="icons/takemehome.png" alt="TakeMeHome Logo">
         <h1>TakeMeHome</h1>
-        <p>A super simple Chrome extension that redirects new tabs to your homepage</p>
+        <p>A streamlined Chrome extension that redirects new tabs to your preferred homepage</p>
     </header>
 
     <main>
         <h2>Features</h2>
         <ul class="feature-list">
-            <li>Redirects new tab pages to your preferred homepage</li>
-            <li>Use your homepage as a personal launcher for your browsing activities</li>
-            <li>Works on all Chrome browsers (including ChromeOS!)</li>
-            <li>Minimal interface with a simple settings panel</li>
-            <li>Lightweight with just essential files (under 5KB total)</li>
-            <li>Privacy-friendly - requires minimal permissions</li>
-            <li>No browsing history access required</li>
-            <li>Support for both HTTP and HTTPS protocols</li>
-            <li>Light and dark mode support</li>
+            <li>Automatically redirects new tabs to your preferred homepage</li>
+            <li>Uses your homepage as a personal launcher for your browsing activities</li>
+            <li>Maintains a single homepage tab instead of opening multiple duplicate tabs</li>
+            <li>Preserves your homepage when opening new tabs</li>
+            <li>Follows dark/light mode preferences of your browser</li>
+            <li>Lightweight with minimal overhead</li>
         </ul>
 
         <h2>Installation</h2>
@@ -134,18 +131,26 @@
             <li>The extension should now be installed</li>
         </ol>
 
-        <h2>Privacy</h2>
-        <p>This extension is designed to be minimally invasive:</p>
+        <h2>Permissions</h2>
+        <p>This extension requires:</p>
         <ul>
-            <li>Only requires storage permission to save your homepage preference</li>
-            <li>Does not access or store browsing history</li>
+            <li><code>tabs</code> permission to manage tabs and focus the homepage tab</li>
+            <li><code>storage</code> permission to save your homepage preference</li>
+            <li><code>host_permissions</code> to redirect to any URL you specify</li>
+        </ul>
+
+        <h2>Privacy</h2>
+        <p>This extension is designed to be privacy-friendly:</p>
+        <ul>
             <li>No tracking or analytics</li>
-            <li>All settings stored locally on your device</li>
+            <li>No data sent to external servers</li>
+            <li>All settings stored locally in Chrome's storage</li>
+            <li>No browsing history access beyond what's needed for core functionality</li>
         </ul>
     </main>
 
     <footer>
-        <p>© 2023 TakeMeHome - <a href="https://github.com/bradgharrison/TakeMeHome">GitHub Repository</a></p>
+        <p>© 2025 TakeMeHome - <a href="https://github.com/bradgharrison/TakeMeHome">GitHub Repository</a></p>
         <p>Licensed under the GNU General Public License v3.0</p>
     </footer>
 </body>

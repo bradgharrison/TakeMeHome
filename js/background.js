@@ -7,14 +7,6 @@
 // Define constants directly instead of importing
 const HOMEPAGE_MARKER = 'TakeMeHomeSameTab';
 const LOCAL_ADDRESS_PATTERN = /(localhost|127\.0\.0\.1|::1|0\.0\.0\.0)/i;
-const DEBUG_MODE = false;
-
-// Define utility functions directly
-function debugLog(message, data) {
-    if (DEBUG_MODE) {
-        console.log(`[TakeMeHome] ${message}`, data || '');
-    }
-}
 
 function hasHomepageMarker(url) {
     return url && url.includes(HOMEPAGE_MARKER);
@@ -142,8 +134,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                 verifyHomepageTab(function (isOnHomepage, tab, homepageUrl) {
                     if (!isOnHomepage) {
                         // If the tab has navigated away, we'll reset it back to homepage
-                        debugLog("Homepage tab has navigated away, will reset it when focused");
-
                         sendResponse({
                             shouldRedirect: false,
                             focusExistingTab: true,
@@ -153,8 +143,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                         });
                     } else {
                         // Still on homepage, just focus it
-                        debugLog("Homepage tab is still on correct URL, will focus it");
-
                         sendResponse({
                             shouldRedirect: false,
                             focusExistingTab: true,
@@ -168,7 +156,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                 // For a new tab when there's no homepage tab yet, set it up
                 if (homepageTabId === null && data.homepage) {
                     // We'll mark this as our future homepage tab
-                    debugLog("First tab scenario - will mark as homepage when redirected");
                     homepageTabId = sender.tab.id;
                 }
 
@@ -187,7 +174,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         // If sender is a tab, store its ID
         if (sender.tab) {
             homepageTabId = sender.tab.id;
-            debugLog("Marked tab " + homepageTabId + " as homepage tab");
             sendResponse({ success: true, tabId: homepageTabId });
         } else {
             sendResponse({ success: false, error: 'Not called from a tab' });
@@ -199,21 +185,36 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.action === 'isHomepageTabOpen') {
         if (homepageTabId !== null) {
             // Verify the tab still exists
-            chrome.tabs.get(homepageTabId, function (tab) {
-                if (chrome.runtime.lastError) {
-                    // Tab doesn't exist anymore
+            chrome.tabs.get(homepageTabId, function(tab) {
+                if (chrome.runtime.lastError || !tab) {
                     homepageTabId = null;
-                    debugLog("Homepage tab doesn't exist anymore");
                     sendResponse({ exists: false });
-                } else {
-                    debugLog("Homepage tab exists: " + homepageTabId);
-                    sendResponse({ exists: true, tabId: homepageTabId });
+                    return;
                 }
+                
+                sendResponse({ exists: true, tabId: homepageTabId });
             });
         } else {
-            debugLog("No homepage tab tracked");
             sendResponse({ exists: false });
         }
+        return true;
+    }
+
+    // Handle tab update (for when tabs navigate to different URLs)
+    if (message.action === 'tabUpdated' && sender.tab) {
+        // If this was our homepage tab and it navigated away
+        if (sender.tab.id === homepageTabId && !hasHomepageMarker(sender.tab.url)) {
+            homepageTabId = null;
+        }
+        sendResponse({ success: true });
+        return true;
+    }
+
+    // Handle tab registration from content script
+    if (message.action === 'registerHomepageTab' && sender.tab) {
+        const tabId = sender.tab.id;
+        homepageTabId = tabId;
+        sendResponse({ success: true, tabId: tabId });
         return true;
     }
 });
@@ -226,7 +227,6 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
             // Verify it's still on our homepage using the utility function
             if (!tab.url || !hasHomepageMarker(tab.url)) {
                 homepageTabId = null;
-                debugLog("Homepage tab navigated away, tracking reset");
             } else if (tab.active) {
                 // If this is our homepage and it's active, ensure it maintains focus
                 ensureTabFocus(tabId);
@@ -237,7 +237,6 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
             // If we're not tracking any tab, or this is a more recent homepage
             if (homepageTabId === null) {
                 homepageTabId = tabId;
-                debugLog("New homepage tab detected and tracked: " + tabId);
                 if (tab.active) {
                     ensureTabFocus(tabId);
                 }
@@ -253,14 +252,12 @@ function scanForHomepageTab() {
         for (let tab of tabs) {
             if (tab.url && hasHomepageMarker(tab.url)) {
                 homepageTabId = tab.id;
-                debugLog("Found existing homepage tab: " + tab.id);
                 foundHomepageTab = true;
 
                 // Verify the found tab is actually valid
                 verifyHomepageTab(function (isOnHomepage) {
                     if (!isOnHomepage) {
                         homepageTabId = null;
-                        debugLog("Found tab was not valid homepage");
                     }
                 });
                 break;
@@ -269,21 +266,18 @@ function scanForHomepageTab() {
 
         if (!foundHomepageTab) {
             homepageTabId = null;
-            debugLog("No homepage tab found in any window");
         }
     });
 }
 
-// Also add a check when any window is created
-chrome.windows.onCreated.addListener(function () {
-    debugLog("New window created, verifying homepage tab");
-    if (homepageTabId !== null) {
-        verifyHomepageTab(function (isOnHomepage) {
-            if (!isOnHomepage) {
+// Listen for window creation to verify homepage tab
+chrome.windows.onCreated.addListener(function(window) {
+    // Wait a bit before verifying - give Chrome time to restore tabs
+    setTimeout(function() {
+        verifyHomepageTab(function(exists) {
+            if (!exists) {
                 scanForHomepageTab();
             }
         });
-    } else {
-        scanForHomepageTab();
-    }
+    }, 500);
 });

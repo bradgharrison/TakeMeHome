@@ -31,13 +31,17 @@
     "default_popup": "popup.html",
     "default_title": "Set Homepage",
     "default_icon": {
-      "16": "icons/takemehome.png",
-      "48": "icons/takemehome.png",
-      "128": "icons/takemehome.png"
+      "16": "icons/resized/takemehome_16x16.png",
+      "32": "icons/resized/takemehome_32x32.png",
+      "48": "icons/resized/takemehome_48x48.png",
+      "128": "icons/resized/takemehome_128x128.png"
     }
   },
   "icons": {
-    "128": "icons/takemehome.png"
+    "16": "icons/resized/takemehome_16x16.png",
+    "32": "icons/resized/takemehome_32x32.png",
+    "48": "icons/resized/takemehome_48x48.png",
+    "128": "icons/resized/takemehome_128x128.png"
   },
   "web_accessible_resources": [
     {
