@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!--
+    TakeMeHome Extension - Popup HTML
+    Version: 2.0.20250404
+    Last updated: 2025-04-04
+-->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TakeMeHome Options</title>
+  <style>
+    :root {
+      --background-color: #ffffff;
+      --text-color: #333333;
+      --input-background: #ffffff;
+      --input-text: #333333;
+      --input-border: #ccc;
+      --button-background: #4285f4;
+      --button-text: white;
+      --button-hover: #3367d6;
+      --success-color: #4caf50;
+      --error-color: #f44336;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --background-color: #292a2d;
+        --text-color: #e8eaed;
+        --input-background: #202124;
+        --input-text: #e8eaed;
+        --input-border: #5f6368;
+        --button-background: #5c9bff;
+        --button-text: #202124;
+        --button-hover: #7ba9ff;
+        --success-color: #81c995;
+        --error-color: #f28b82;
+      }
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      padding: 12px;
+      width: 240px;
+      margin: 0;
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    h1 {
+      font-size: 18px;
+      margin: 0;
+      color: var(--text-color);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .header-icon {
+      width: 36px;
+      height: 36px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    input[type="url"] {
+      padding: 8px;
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: var(--input-background);
+      color: var(--input-text);
+    }
+
+    /* Placeholder style */
+    ::placeholder {
+      opacity: 0.5;
+      font-size: 11px;
+    }
+
+    .action-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-top: 4px;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    #status {
+      color: #27ae60;
+      font-weight: bold;
+      opacity: 0;
+      transition: opacity 0.3s;
+      text-align: center;
+      flex-grow: 1;
+    }
+
+    #status.visible {
+      opacity: 1;
+    }
+
+    #status.error {
+      color: #e74c3c;
+    }
+
+    .github-link {
+      font-size: 10px;
+      opacity: 0.7;
+    }
+
+    .github-link a {
+      color: var(--text-color);
+      text-decoration: none;
+    }
+
+    .github-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>TakeMeHome Settings</h1>
+      <img src="/icons/takemehome_128x128.png" alt="TakeMeHome" class="header-icon">
+    </div>
+
+    <div>
+      <label for="homepage">Home URL:</label>
+      <input type="url" id="homepage" placeholder="e.g., https://example.com/page" />
+    </div>
+
+    <div class="action-row">
+      <button id="save">Save</button>
+      <div id="status"></div>
+      <div class="github-link">
+        <a href="https://bradgharrison.github.io/TakeMeHome/" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+
+</html>

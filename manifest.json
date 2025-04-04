@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "TakeMeHome",
+  "version": "2.0",
+  "description": "Focuses or opens your configured homepage via a keyboard shortcut.",
+  "permissions": [
+    "storage",
+    "tabs",
+    "commands"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/takemehome_16x16.png",
+      "32": "icons/takemehome_32x32.png",
+      "48": "icons/takemehome_48x48.png",
+      "128": "icons/takemehome_128x128.png"
+    }
+  },
+  "commands": {
+    "goToHomepage": {
+      "suggested_key": {
+        "default": "Alt+T"
+      },
+      "description": "Focus or open the homepage"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/takemehome_16x16.png",
+    "32": "icons/takemehome_32x32.png",
+    "48": "icons/takemehome_48x48.png",
+    "128": "icons/takemehome_128x128.png"
+  }
+}

@@ -1,0 +1,66 @@
+# TakeMeHome Chrome Extension - Git Ignore File
+
+# Backup files
+*backup*
+Backup/
+*.bak
+*.backup
+*.old
+backup_log.txt
+backup.ps1
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*~
+.cursor/
+take_me_home.code-workspace
+
+# Build/package files
+node_modules/
+*.zip
+*.crx
+*.pem
+
+# ESLint files
+.eslintrc*
+.eslintcache
+
+# Chrome Extension specific
+*.crx
+*.pem
+*.zip
+
+# Windows files
+Thumbs.db
+desktop.ini
+
+# Node.js (if using npm for development)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Editor directories and files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Backup files
+/backups/
+
+# Media files
+media/
+
+# Memory bank files (local only)
+memory-bank/
+
