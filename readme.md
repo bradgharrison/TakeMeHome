@@ -1,6 +1,8 @@
-# TakeMeHome (v2.0.20250404)
+# TakeMeHome (v2.0)
 
 A Chrome extension to quickly access a designated homepage via a keyboard shortcut.
+
+[![Project Website](https://img.shields.io/badge/Website-Visit%20Project%20Page-blue)](https://bradgharrison.github.io/TakeMeHome/)
 
 ## How it Works
 
@@ -13,6 +15,10 @@ A Chrome extension to quickly access a designated homepage via a keyboard shortc
 
 ## Installation
 
+### Chrome Web Store (Recommended)
+Install directly from the [Chrome Web Store](https://chromewebstore.google.com/detail/takemehome/napjgolkigdjpjeccjheepfkdfljjneb)
+
+### Manual Installation
 1.  Download or clone the repository.
 2.  Open Chrome, go to `chrome://extensions/`.
 3.  Enable "Developer mode".
